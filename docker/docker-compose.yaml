@@ -1,0 +1,14 @@
+# terraform
+
+services:
+  terraform:
+    image: hashicorp/terraform
+    container_name: terraform
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../terraform:/terraform
+      - ../infraascode-486507-8fd7d4dcd7bc.json:/infraascode-486507-8fd7d4dcd7bc.json
+    tty: true           # 等同於 -t
+    entrypoint: /bin/sh
+    working_dir: /terraform
