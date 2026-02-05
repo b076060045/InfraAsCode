@@ -1,0 +1,28 @@
+---
+- name: 在 GCP 機器上安裝 Nginx (修正版)
+  hosts: _role_webserver
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: 1.下載 Nginx 鏡像
+      community.docker.docker_image:
+        name: nginx
+        source: pull
+        state: present
+      register: nginx_image
+
+    - name: 2.顯示下載結果 (選用，用來除錯)
+      debug:
+        var: nginx_image.image.Id
+
+    - name: 在特定目錄執行 Docker Compose Up
+      community.docker.docker_compose_v2:
+        project_src: /home/terraform2026/app  # <--- 這裡填寫 docker-compose.yaml 所在的目錄
+        state: present
+        pull: always                      # 啟動前先檢查有無新影像
+      register: compose_output
+
+    - name: 檢查啟動結果
+      debug:
+        msg: "Compose 狀態: {{ compose_output.actions }}"

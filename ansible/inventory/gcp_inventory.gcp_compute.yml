@@ -1,0 +1,26 @@
+plugin: google.cloud.gcp_compute
+projects:
+  - "infraascode-486507" # 你的 GCP Project ID
+zones:
+  - "asia-east1-b"       # 機器所在的區域
+auth_kind: serviceaccount
+service_account_file: "/infraascode-486507-8fd7d4dcd7bc.json" # 金鑰路徑
+
+# 設定抓取到的主機名稱顯示方式
+hostnames:
+  - name
+
+# 關鍵設定：告訴 Ansible 如何連線到這些機器
+compose:
+  # 使用抓取到的外部 IP (natIP) 作為連線位址
+  ansible_host: networkInterfaces[0].accessConfigs[0].natIP
+
+  # 2. 設定登入帳號 (剛才 Terraform 設的那個)
+  ansible_user: "terraform"
+  
+  # 3. 指定容器內的私鑰路徑 (不要加 .pub)
+  ansible_ssh_private_key_file: "/ansible/host_vars/terraform_key"
+  
+# 選項：自動根據標籤（Labels）分組
+keyed_groups:
+  - key: labels

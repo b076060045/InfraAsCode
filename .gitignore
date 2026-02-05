@@ -1,1 +1,15 @@
-infraascode-486507-8fd7d4dcd7bc.json
+# 排除 GCP 的 Service Account 金鑰 (非常重要！不要傳到 GitHub)
+infraascode-*.json
+
+# 排除所有層級目錄下的 .terraform 資料夾
+**/.terraform/
+
+# 排除所有的 lock 檔案
+*.terraform.lock.hcl
+
+# 排除狀態檔案 (包含敏感資訊)
+*.tfstate
+*.tfstate.backup
+
+# 排除變數檔案 (通常包含密碼或私鑰路徑)
+*.tfvars

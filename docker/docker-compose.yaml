@@ -9,6 +9,18 @@ services:
     volumes:
       - ../terraform:/terraform
       - ../infraascode-486507-8fd7d4dcd7bc.json:/infraascode-486507-8fd7d4dcd7bc.json
+      - ../terraform/terraform_key.pub:/terraform_key.pub
+
     tty: true           # 等同於 -t
     entrypoint: /bin/sh
     working_dir: /terraform
+
+  ansible:
+    build: ./ansible
+    container_name: ansible
+    tty: true
+    volumes:
+      - ../infraascode-486507-8fd7d4dcd7bc.json:/infraascode-486507-8fd7d4dcd7bc.json
+      - ../ansible:/ansible
+    entrypoint: /bin/sh
+    working_dir: /ansible
